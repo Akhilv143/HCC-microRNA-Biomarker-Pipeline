@@ -50,13 +50,12 @@ The following miRNAs exhibited the highest statistical significance and magnitud
 ### 1. Quality Control and Principal Component Analysis
 The plots below demonstrate the distribution of samples before and after applying batch correction to remove sequencing platform-specific variance.
 
-#### PCA Before Batch Correction
 <p align="center">
   <img src="results/plots/QC_PCA/PCA_by_Batch.png" width="48%" alt="PCA Before (Batch)">
   <img src="results/plots/QC_PCA/PCA_by_Condition.png" width="48%" alt="PCA Before (Condition)">
 </p>
 
-#### PCA After Batch Correction
+
 <p align="center">
   <img src="results/plots/QC_PCA/PCA_after_Batch.png" width="48%" alt="PCA After (Batch)">
   <img src="results/plots/QC_PCA/PCA_after_Condition.png" width="48%" alt="PCA After (Condition)">
