@@ -1,0 +1,13 @@
+# Ignore raw data / cell files
+data/
+
+# Ignore massive TIFF images (exceeds GitHub 100MB limit)
+*.tiff
+*.tif
+
+# Ignore R data objects
+*.rds
+results/rds/
+.Rhistory
+.RData
+.Ruserdata
