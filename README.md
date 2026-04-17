@@ -11,7 +11,7 @@ The entire computational workflow—including data acquisition, preprocessing, b
 ## Datasets Analyzed
 Raw transcriptomic data was sourced from the NCBI Gene Expression Omnibus (GEO). The study utilizes a balanced dataset of 104 samples: 52 normal adjacent tissue controls and 52 HCC primary tumor samples.
 
-* **GSE227378:** High-throughput small RNA sequencing (BGISEQ-500) of paired tumor and adjacent normal tissues from 32 HCC patients. This dataset provides critical insights into miRNA shifts associated with HCC progression.
+* **GSE227378:** High-throughput small RNA sequencing (BGISEQ-500) of paired tumor and adjacent normal tissues from 32 HCC patients.
 * **GSE76903:** Deep sequencing of small RNAs (Illumina HiSeq 2500). The analysis focused strictly on primary tumor and matched adjacent normal samples to maintain biological consistency.
 
 ## Key Findings: Top Differentially Expressed miRNAs
@@ -46,6 +46,7 @@ The following miRNAs exhibited the highest statistical significance and magnitud
 * **High-Confidence Filtering:** Gene targets were identified by intersecting experimentally validated interactions from **miRTarBase** with predicted interactions from **miRDB** (Target Prediction Score ≥ 80).
 
 ## Visualizations
+
 ### 1. Quality Control and Principal Component Analysis
 The plots below demonstrate the distribution of samples before and after applying batch correction to remove sequencing platform-specific variance.
 
@@ -64,13 +65,13 @@ The plots below demonstrate the distribution of samples before and after applyin
 ### 2. Differential Expression Landscape
 The Volcano plot and Heatmap highlight global miRNA expression shifts and consistency across the 104 samples.
 <p align="center">
-  <img src="results/plots/DEG/Volcano_plot.png" width="45%">
-  <img src="results/plots/Heatmap/Heatmap_top25up_top25dn.png" width="45%">
+  <img src="results/plots/DEG/Volcano_plot.png" width="45%" alt="Volcano Plot">
+  <img src="results/plots/Heatmap/Heatmap_top25up_top25dn.png" width="45%" alt="miRNA Heatmap">
 </p>
 
 ## miRNA-Gene Interaction Outputs
 * **STRING-db:** Formatted gene lists for protein-protein interaction (PPI) network construction.
-* **Network Hubs:** Matrices mapping the targeting degree (quantifying how many differentially expressed miRNAs target a single gene).
+* **Network Hubs:** Matrices mapping the targeting degree (quantifying how many miRNAs target a single gene).
 * **Clinical Validation:** Standardized ID formatting for external survival validation in TCGA-LIHC cohorts via UALCAN.
 
 ## Repository Structure
