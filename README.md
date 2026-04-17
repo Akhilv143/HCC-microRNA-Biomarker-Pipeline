@@ -48,24 +48,22 @@ The following miRNAs exhibited the highest statistical significance and magnitud
 ## Visualizations
 
 ### 1. Quality Control and Principal Component Analysis
-The plots below demonstrate the distribution of samples before and after applying batch correction to remove sequencing platform-specific variance.
+The plots below demonstrate the distribution of samples before (Top) and after (Bottom) applying batch correction to remove sequencing platform-specific variance.
 
 <p align="center">
-  <img src="results/plots/QC_PCA/PCA_by_Batch.png" width="48%" alt="PCA Before (Batch)">
-  <img src="results/plots/QC_PCA/PCA_by_Condition.png" width="48%" alt="PCA Before (Condition)">
+  <img src="results/plots/QC_PCA/PCA_by_Batch.png" width="48%">
+  <img src="results/plots/QC_PCA/PCA_by_Condition.png" width="48%">
 </p>
-
-
 <p align="center">
-  <img src="results/plots/QC_PCA/PCA_after_Batch.png" width="48%" alt="PCA After (Batch)">
-  <img src="results/plots/QC_PCA/PCA_after_Condition.png" width="48%" alt="PCA After (Condition)">
+  <img src="results/plots/QC_PCA/PCA_after_Batch.png" width="48%">
+  <img src="results/plots/QC_PCA/PCA_after_Condition.png" width="48%">
 </p>
 
 ### 2. Differential Expression Landscape
 The Volcano plot and Heatmap highlight global miRNA expression shifts and consistency across the 104 samples.
 <p align="center">
-  <img src="results/plots/DEG/Volcano_plot.png" width="45%" alt="Volcano Plot">
-  <img src="results/plots/Heatmap/Heatmap_top25up_top25dn.png" width="45%" alt="miRNA Heatmap">
+  <img src="results/plots/DEG/Volcano_plot.png" width="45%">
+  <img src="results/plots/Heatmap/Heatmap_top25up_top25dn.png" width="45%">
 </p>
 
 ## miRNA-Gene Interaction Outputs
