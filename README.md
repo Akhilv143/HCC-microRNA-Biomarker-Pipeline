@@ -1,71 +1,76 @@
 # Integrative Profiling of the miRNA-Gene Interactome in Hepatocellular Carcinoma (HCC)
 
 ## Project Overview
-This repository hosts a high-throughput computational pipeline for investigating the differential expression of microRNAs (miRNAs) in Hepatocellular Carcinoma (HCC). By integrating transcriptomic data from independent cohorts, this workflow establishes a consistent biological signature of HCC while mitigating technical noise associated with different sequencing technologies.
-
-## Biological Significance
-Hepatocellular Carcinoma is characterized by complex regulatory disruptions. miRNAs serve as critical post-transcriptional regulators that can silence tumor suppressors or activate oncogenic pathways. This project identifies core miRNAs that are consistently dysregulated across multiple patient groups, providing a foundation for understanding the HCC regulatory landscape.
+This repository provides a high-throughput computational framework for evaluating differential miRNA expression in Hepatocellular Carcinoma (HCC). By integrating independent transcriptomic datasets across diverse sequencing platforms, this project identifies robust regulatory signatures while minimizing platform-specific technical variance.
 
 ## Main Analysis Script
-The entire analytical lifecycle—from raw data ingestion to high-confidence target prediction—is centralized in one modular script:
+The entire computational workflow—including data acquisition, preprocessing, batch correction, and target prediction—is executed via the following script:
 
-* **[`mirna_hcc.R`](mirna_hcc.R)**: This script automates library management, batch effect correction, differential expression statistics, and the integration of miRNA-gene databases.
+* **[`mirna_hcc.R`](mirna_hcc.R)**: This modular R script handles the end-to-end pipeline and generates all statistical tables and publication-quality visualizations.
 
-## Datasets and Study Cohorts
-Raw miRNA expression counts were retrieved from the NCBI Gene Expression Omnibus (GEO). To ensure biological consistency, the analysis utilizes a total of **104 samples**, consisting of 52 HCC tumors and 52 matched normal liver tissues.
+## Datasets Analyzed
+Raw transcriptomic data was sourced from the NCBI Gene Expression Omnibus (GEO). The study utilizes a balanced dataset of 104 samples: 52 normal adjacent tissue controls and 52 HCC primary tumor samples.
 
-| Dataset ID | Platform | Focus | Samples (N/T) |
-|:---:|:---:|:---|:---:|
-| **GSE227378** | BGISEQ-500 | Small RNA sequencing of Chinese HCC patients. | 32 Normal / 32 Tumor |
-| **GSE76903** | Illumina HiSeq 2500 | Paired primary tumor and normal adjacent profiling. | 20 Normal / 20 Tumor |
+* **GSE227378:** High-throughput small RNA sequencing (BGISEQ-500) of paired tumor and adjacent normal tissues from 32 HCC patients. This dataset provides critical insights into miRNA shifts associated with HCC progression.
+* **GSE76903:** Deep sequencing of small RNAs (Illumina HiSeq 2500). The analysis focused strictly on primary tumor and matched adjacent normal samples to maintain biological consistency.
 
-## Top Differentially Expressed miRNAs
-The following tables summarize the most significantly dysregulated miRNAs identified after cross-platform integration.
+## Key Findings: Top Differentially Expressed miRNAs
+The following miRNAs exhibited the highest statistical significance and magnitude of change across the integrated cohorts.
 
 ### Top 5 Up-regulated miRNAs
-| miRNA | Log2 Fold Change | Adjusted p-value | Regulation |
-|:---|:---:|:---:|:---:|
-| hsa-miR-301a-3p | 1.79 | 3.08e-32 | Up |
-| hsa-miR-421 | 1.76 | 2.47e-31 | Up |
-| hsa-miR-3200-3p | 3.03 | 1.43e-29 | Up |
-| hsa-miR-183-5p | 2.94 | 1.62e-29 | Up |
-| hsa-miR-501-5p | 2.14 | 1.21e-27 | Up |
+| miRNA | Log2 Fold Change | Adjusted p-value |
+|:---|:---:|:---:|
+| hsa-miR-301a-3p | 1.79 | 3.08e-32 |
+| hsa-miR-421 | 1.76 | 2.47e-31 |
+| hsa-miR-3200-3p | 3.03 | 1.43e-29 |
+| hsa-miR-183-5p | 2.94 | 1.62e-29 |
+| hsa-miR-501-5p | 2.14 | 1.21e-27 |
 
 ### Top 5 Down-regulated miRNAs
-| miRNA | Log2 Fold Change | Adjusted p-value | Regulation |
-|:---|:---:|:---:|:---:|
-| hsa-miR-139-5p | -2.19 | 7.28e-30 | Down |
-| hsa-miR-139-3p | -1.99 | 6.34e-25 | Down |
-| hsa-miR-490-3p | -2.96 | 1.28e-21 | Down |
-| hsa-miR-490-5p | -3.24 | 8.13e-19 | Down |
-| hsa-miR-99a-3p | -1.54 | 1.08e-15 | Down |
+| miRNA | Log2 Fold Change | Adjusted p-value |
+|:---|:---:|:---:|
+| hsa-miR-139-5p | -2.19 | 7.28e-30 |
+| hsa-miR-139-3p | -1.99 | 6.34e-25 |
+| hsa-miR-490-3p | -2.96 | 1.28e-21 |
+| hsa-miR-490-5p | -3.24 | 8.13e-19 |
+| hsa-miR-99a-3p | -1.54 | 1.08e-15 |
 
-## Computational Methodology
+## Analytical Methodology
 
-### 1. Multi-Cohort Integration
-The pipeline dynamically fetches raw count data. Because the datasets were generated on different sequencing platforms (BGI vs. Illumina), the script utilizes **DESeq2** with a multi-factor design matrix. By including `batch` (Study ID) in the model, we isolate the biological signal (`condition`) from the technical variance.
+### 1. Data Normalization & Batch Correction
+* Raw miRNA counts were merged and normalized using `DESeq2`.
+* To mitigate sequencing platform bias (BGISEQ vs. Illumina), the study origin was explicitly incorporated as a covariate in the DESeq2 design matrix (`~ batch + condition`).
 
-### 2. Differential Expression Analysis
-Statistical significance is calculated using the Wald test within DESeq2. We apply the Benjamini-Hochberg procedure to control the False Discovery Rate (FDR), ensuring that the identified miRNAs are robust across both studies.
+### 2. miRNA Target Discovery (miRTarBase & miRDB)
+* Functional targets were identified via the `multiMiR` package.
+* **High-Confidence Filtering:** Gene targets were identified by intersecting experimentally validated interactions from **miRTarBase** with predicted interactions from **miRDB** (Target Prediction Score ≥ 80).
 
-### 3. Regulatory Network Discovery (miRTarBase & miRDB)
-To determine the functional impact of these miRNAs, we perform a dual-database target search using the `multiMiR` package:
-* **Validated Targets:** Sourced from **miRTarBase**, focusing on interactions with strong experimental evidence (Reporter assay, Western blot, etc.).
-* **Predicted Targets:** Sourced from **miRDB**, utilizing only those with a target prediction score ≥ 80 to minimize false positives.
+## Visualizations
 
-## Visualizations and QC
-All plots are generated in both PNG and high-resolution TIFF formats for publication readiness.
+### 1. Sample Clustering (PCA)
+Principal Component Analysis (PCA) validates the biological separation of tumor vs. normal states while successfully mitigating study-specific batch effects.
+<p align="center">
+  <img src="results/plots/QC_PCA/PCA_by_Condition.png" width="48%">
+  <img src="results/plots/QC_PCA/PCA_by_Batch.png" width="48%">
+</p>
 
-* **PCA Analysis:** Validates that samples cluster primarily by biological status (Tumor vs. Normal) rather than their laboratory of origin.
-* **Volcano Plot:** Provides a global view of the fold-change distribution and statistical significance.
-* **Heatmap Clustering:** Demonstrates consistent miRNA expression patterns across the 104 samples using Z-score normalization.
+### 2. Differential Expression Landscape
+The Volcano plot and Heatmap highlight global miRNA expression shifts and consistency across the 104 samples.
+<p align="center">
+  <img src="results/plots/DEG/Volcano_plot.png" width="45%">
+  <img src="results/plots/Heatmap/Heatmap_top25up_top25dn.png" width="45%">
+</p>
+
+## miRNA-Gene Interaction Outputs
+* **STRING-db:** Formatted gene lists for protein-protein interaction (PPI) network construction.
+* **Network Hubs:** Matrices mapping the targeting degree (quantifying how many differentially expressed miRNAs target a single gene).
+* **Clinical Validation:** Standardized ID formatting for external survival validation in TCGA-LIHC cohorts via UALCAN.
 
 ## Repository Structure
-* **`results/tables/`**: Final DESeq2 results, count matrices, and UALCAN-ready ID lists.
-* **`results/plots/`**: Visual outputs for QC and Differential Expression.
-* **`results/rds/`**: Pre-saved database query results for faster reproducibility.
-* **`.gitignore`**: Optimized to keep the repository light by excluding large raw `.tar` files and intermediate data.
+* **`mirna_hcc.R`**: Core R script executing the full transcriptomic and target prediction workflow.
+* **`/results/tables/`**: DESeq2 results, count matrices, and database interaction tables.
+* **`/results/plots/`**: Publication-quality graphical outputs in PNG and TIFF formats.
+* **`.gitignore`**: Configured to exclude heavy raw data files and massive TIFF images.
 
-## R Environment Requirements
-The pipeline depends on the following Bioconductor and CRAN packages:
-`GEOquery`, `DESeq2`, `limma`, `ComplexHeatmap`, `multiMiR`, `tidyverse`, `ggplot2`, `ggrepel`, `BiocParallel`.
+## R Dependencies
+`GEOquery`, `DESeq2`, `limma`, `ComplexHeatmap`, `multiMiR`, `tidyverse`, `ggplot2`.
