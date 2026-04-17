@@ -46,12 +46,19 @@ The following miRNAs exhibited the highest statistical significance and magnitud
 * **High-Confidence Filtering:** Gene targets were identified by intersecting experimentally validated interactions from **miRTarBase** with predicted interactions from **miRDB** (Target Prediction Score ≥ 80).
 
 ## Visualizations
+### 1. Quality Control and Principal Component Analysis
+The plots below demonstrate the distribution of samples before and after applying batch correction to remove sequencing platform-specific variance.
 
-### 1. Sample Clustering (PCA)
-Principal Component Analysis (PCA) validates the biological separation of tumor vs. normal states while successfully mitigating study-specific batch effects.
+#### PCA Before Batch Correction
 <p align="center">
-  <img src="results/plots/QC_PCA/PCA_by_Condition.png" width="48%">
-  <img src="results/plots/QC_PCA/PCA_by_Batch.png" width="48%">
+  <img src="results/plots/QC_PCA/PCA_by_Batch.png" width="48%" alt="PCA Before (Batch)">
+  <img src="results/plots/QC_PCA/PCA_by_Condition.png" width="48%" alt="PCA Before (Condition)">
+</p>
+
+#### PCA After Batch Correction
+<p align="center">
+  <img src="results/plots/QC_PCA/PCA_after_Batch.png" width="48%" alt="PCA After (Batch)">
+  <img src="results/plots/QC_PCA/PCA_after_Condition.png" width="48%" alt="PCA After (Condition)">
 </p>
 
 ### 2. Differential Expression Landscape
