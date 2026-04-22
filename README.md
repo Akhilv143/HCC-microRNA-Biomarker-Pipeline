@@ -1,4 +1,17 @@
-# Integrative Profiling of the miRNA-Gene Interactome in Hepatocellular Carcinoma (HCC)
+# Hepatocellular Carcinoma (HCC) miRNA-Gene Interactome Profiling
+
+[![R](https://img.shields.io/badge/Language-R_4.0+-198CE7.svg)](https://www.r-project.org/)
+[![DESeq2](https://img.shields.io/badge/Bioc-DESeq2-F05032.svg)](https://bioconductor.org/packages/DESeq2/)
+[![limma](https://img.shields.io/badge/Bioc-limma-8A2BE2.svg)](https://bioconductor.org/packages/limma/)
+[![multiMiR](https://img.shields.io/badge/Bioc-multiMiR-3CB371.svg)](https://bioconductor.org/packages/multiMiR/)
+[![ComplexHeatmap](https://img.shields.io/badge/Bioc-ComplexHeatmap-DC143C.svg)](https://bioconductor.org/packages/ComplexHeatmap/)
+[![GEOquery](https://img.shields.io/badge/Bioc-GEOquery-FF1493.svg)](https://bioconductor.org/packages/GEOquery/)
+[![tidyverse](https://img.shields.io/badge/CRAN-tidyverse-5F9EA0.svg)](https://cran.r-project.org/package=tidyverse)
+[![ggplot2](https://img.shields.io/badge/CRAN-ggplot2-00CED1.svg)](https://cran.r-project.org/package=ggplot2)
+[![ggrepel](https://img.shields.io/badge/CRAN-ggrepel-BDB76B.svg)](https://cran.r-project.org/package=ggrepel)
+[![License](https://img.shields.io/badge/License-MIT-4CAF50.svg)](https://opensource.org/licenses/MIT)
+
+MicroRNAs (miRNAs) are small, non-coding RNA molecules that fundamentally regulate gene expression by binding to target messenger RNAs, causing their degradation or inhibiting translation. In cancer, dysregulated miRNAs can function as either oncogenes or tumor suppressors, heavily influencing tumor growth, progression, and metastasis. Because a single miRNA can target multiple genes across various signaling pathways, their abnormal expression often drives tumor survival and immune evasion. Identifying these specific miRNA signatures provides highly reliable diagnostic and prognostic biomarkers, opening new doors for targeted cancer therapies.
 
 ## Project Overview
 This repository provides a high-throughput computational framework for evaluating differential miRNA expression in Hepatocellular Carcinoma (HCC). By integrating independent transcriptomic datasets across diverse sequencing platforms, this project identifies robust regulatory signatures while minimizing platform-specific technical variance.
@@ -37,13 +50,13 @@ The following miRNAs exhibited the highest statistical significance and magnitud
 
 ## Analytical Methodology
 
-### 1. Data Normalization & Batch Correction
+### 1. Data Normalization and Batch Correction
 * Raw miRNA counts were merged and normalized using `DESeq2`.
 * To mitigate sequencing platform bias (BGISEQ vs. Illumina), the study origin was explicitly incorporated as a covariate in the DESeq2 design matrix (`~ batch + condition`).
 
-### 2. miRNA Target Discovery (miRTarBase & miRDB)
+### 2. miRNA Target Discovery (miRTarBase and miRDB)
 * Functional targets were identified via the `multiMiR` package.
-* **High-Confidence Filtering:** Gene targets were identified by intersecting experimentally validated interactions from **miRTarBase** with predicted interactions from **miRDB** (Target Prediction Score ≥ 80).
+* **High-Confidence Filtering:** Gene targets were identified by intersecting experimentally validated interactions from **miRTarBase** with predicted interactions from **miRDB** (Target Prediction Score >= 80).
 
 ## Visualizations
 
@@ -51,19 +64,19 @@ The following miRNAs exhibited the highest statistical significance and magnitud
 The plots below demonstrate the distribution of samples before (Top) and after (Bottom) applying batch correction to remove sequencing platform-specific variance.
 
 <p align="center">
-  <img src="results/plots/QC_PCA/PCA_by_Batch.png" width="48%">
-  <img src="results/plots/QC_PCA/PCA_by_Condition.png" width="48%">
+  <img src="results/plots/QC_PCA/PCA_by_Batch.png" width="48%" alt="PCA by Batch">
+  <img src="results/plots/QC_PCA/PCA_by_Condition.png" width="48%" alt="PCA by Condition">
 </p>
 <p align="center">
-  <img src="results/plots/QC_PCA/PCA_after_Batch.png" width="48%">
-  <img src="results/plots/QC_PCA/PCA_after_Condition.png" width="48%">
+  <img src="results/plots/QC_PCA/PCA_after_Batch.png" width="48%" alt="PCA After Batch Correction">
+  <img src="results/plots/QC_PCA/PCA_after_Condition.png" width="48%" alt="PCA After Condition Correction">
 </p>
 
 ### 2. Differential Expression Landscape
 The Volcano plot and Heatmap highlight global miRNA expression shifts and consistency across the 104 samples.
 <p align="center">
-  <img src="results/plots/DEG/Volcano_plot.png" width="45%">
-  <img src="results/plots/Heatmap/Heatmap_top25up_top25dn.png" width="45%">
+  <img src="results/plots/DEG/Volcano_plot.png" width="45%" alt="Volcano Plot">
+  <img src="results/plots/Heatmap/Heatmap_top25up_top25dn.png" width="45%" alt="Heatmap">
 </p>
 
 ## miRNA-Gene Interaction Outputs
